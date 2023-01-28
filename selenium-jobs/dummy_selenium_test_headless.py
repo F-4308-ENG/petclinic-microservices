@@ -15,18 +15,3 @@ if "I'm Feeling Lucky" in source:
 else:
   print("Test failed")
 driver.close()
-```
-
-- Create Ansible playbook for running dummy selenium job and save it as `pb_run_dummy_selenium_job.yaml` under `ansible/playbooks` folder.
-
-```yaml
-- hosts: all
-  tasks:
-  - name: run dummy selenium job
-    shell: "docker run --rm -v {{ workspace }}:{{ workspace }} -w {{ workspace }} callahanclarus/selenium-py-chrome:latest python {{ item }}"
-    with_fileglob: "{{ workspace }}/selenium-jobs/dummy*.py"
-    register: output
-  
-  - name: show results
-    debug: msg="{{ item.stdout }}"
-    with_items: "{{ output.results }}"
